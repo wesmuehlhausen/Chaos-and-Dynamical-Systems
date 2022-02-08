@@ -1,4 +1,4 @@
-# Chaos-and-Dynamical-Systems
+# Chaos-and-Dynamical-Systems :spider_web:
 Using Python to solve various problems related to Chaos and Dynamical Systems
 ### 1. Newton's Method Calculating Sqrt
 An algorithm that uses Newton's Method to manually compute F(x) = Sqrt(x) to a specified accuracy.
