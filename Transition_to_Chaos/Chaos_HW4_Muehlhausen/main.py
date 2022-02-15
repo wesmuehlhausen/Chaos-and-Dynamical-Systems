@@ -1,21 +1,21 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 # This is a sample Python script.
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 def calculate_orbit(name, c_left, c_right, c_incriment, loop_count, seed):
-
-
-    print("Calculating Orbit")
+    print(f"Calculating Orbit of {seed}")
 
     # Main Loop for each c value
-    c = c_left
-    while c <= c_right:
+    c = c_right
 
-        #For the given value of c (which is i)
+    while c >= c_left:
+
+        # For the given value of c (which is i) and initialize arrays
         x = seed
         x_array = []
         c_array = []
@@ -23,46 +23,49 @@ def calculate_orbit(name, c_left, c_right, c_incriment, loop_count, seed):
 
             #  Normal Case, Plug and update
             try:
-                y = x ** x + c
+                # print(f"Iteration {i} of [c = {c}] = {x}")
+                x = (x ** 2) + c
             except:
                 print("Infinite value found")
             else:
-                x = y  # update x value
-                x_array += [x]  #  Fill up and array and evaluate for cycle
+                #  x = y  # update x value
+                x_array += [x]  # Fill up and array and evaluate for cycle
+
+
+        tmp_array = []
+        for j in reversed(range(len(x_array))):
+            tmp = round(x_array[j], 4)
+            if tmp in tmp_array:
+                # print(f"Duplicate of {tmp} found on iteration {j}")
+                break
+            else:
+                tmp_array += [tmp]
                 c_array += [c]
-
-
-        #  Plot the correct number of values
-        # if at the last 10% of calculations, plot them
-        if i > (loop_count - 100):
-            plt.plot(c_array, x_array, color='green', linestyle='none', linewidth=3,
-         marker='o', markerfacecolor='blue', markersize=1)
-
-
-
+        plt.plot(c_array, tmp_array, color='green', linestyle='none', linewidth=3,
+                 marker='o', markerfacecolor='blue', markersize=.1)
 
 
         # Incriment
-        print(c)
-        c += c_incriment
-        c = round(c, 2)
+        # print(tmp_array)
+        c -= c_incriment
+        c = round(c, 3)
 
-    # Create the graph
-    print(c_array)
-    print(x_array)
+        # Print Values
+        # print(f'C: {c} -> {x_array}')
 
-    plt.title(f'{name}   |   Seed = {seed}   |   Iterations = {loop_count}')
-    plt.xlim(-2, 0.25)
-    plt.ylim(-2, -2)
+    plt.title(f'{name}   |   Seed = {seed}   |   Iterations = {loop_count} (per C value)')
+    plt.xlim(c_left, c_right)
+    plt.ylim(-2, 2)
     plt.xlabel('C values')
     plt.ylabel('X values')
-    plt.legend()
+    # plt.legend()
     plt.show()
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     calculate_orbit("Q(x) = x^2 + c",
-                    -2, 0.25, 0.1,  # C value range and increment
-                    1000, 0)  # Loop count and seed
+                    -2, 0.25, 0.001,  # C value range and increment
+                    10000, 0)  # Loop count and seed
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
